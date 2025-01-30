@@ -14,8 +14,9 @@ class Tree:
         if len(arr) == 0:
             return
 
+        arr = sorted(arr)
         i = 0
-        mid = len(arr) // 2 + 1
+        mid = len(arr) // 2
         self.root = self.insert(arr[mid], self.root)
 
         while i < len(arr):
@@ -95,7 +96,9 @@ class Tree:
 
         return node
 
-    def insert(self, val, node: Node) -> Node:
+    def insert(self, val:int, node: Node) -> Node:
+        if val < 0:
+            raise Exception("Число должно быть натуральным")
         if node is None:
             return Node(val)
         if val <= node.val:
@@ -126,6 +129,9 @@ class Tree:
             return node.val + left_sum + right_sum, 1 + left_count + right_count
 
         s, c = find_sum_and_count(root)
+        if c == 0:
+            return 0
+
         return s / c
 
     def inorder(self, root) -> list:
@@ -231,17 +237,6 @@ def merge(tree1, tree2):
 
 
 t = Tree()
-t.build_by_arr([10, 20, 25, 30, 40, 50])
 
-print(t.inorder(t.root))
-
+t.root = t.insert(10, t.root)
 t.print_tree(t.root)
-print("Сбалансировано:", t.check(t.root))
-
-l, r = t.split(26, t.root)
-l.print_tree(l.root)
-print()
-r.print_tree(r.root)
-print(1111)
-a = merge(l, r)
-a.print_tree(a.root)
