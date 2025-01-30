@@ -235,8 +235,3 @@ def merge(tree1, tree2):
 
     return tree1
 
-
-t = Tree()
-
-t.root = t.insert(10, t.root)
-t.print_tree(t.root)
