@@ -11,18 +11,28 @@ class Tree:
         self.root = root
 
     def build_by_arr(self, arr):
+    	#Данная функция построения АВЛ-дерева по массиву позволяет избежать проверки и балансировки дерева
+    	#благодаря тому, что из отсортированного списка берём серединный элемент и добавляем его в авл.
+    	#Повторяем тоже самое для левого и правого подмассива.
         if len(arr) == 0:
             return
 
         arr = sorted(arr)
-        i = 0
-        mid = len(arr) // 2
-        self.root = self.insert(arr[mid], self.root)
 
-        while i < len(arr):
-            if i != mid:
-                self.root = self.insert(arr[i], self.root)
-            i += 1
+        def build_balanced_tree(sorted_arr):
+            if not sorted_arr:
+                return None
+
+            mid = len(sorted_arr) // 2
+            node = Node(sorted_arr[mid])
+
+            node.left = build_balanced_tree(sorted_arr[:mid])
+            node.right = build_balanced_tree(sorted_arr[mid + 1:])
+            self.update_height(node)
+
+            return node
+
+        self.root = build_balanced_tree(arr)
 
     def get_height(self, node: Node) -> int:
         if not node:
